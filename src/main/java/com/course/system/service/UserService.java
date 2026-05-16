@@ -1,8 +1,8 @@
-package com.library.system.service;
+package com.course.system.service;
 
-import com.library.system.model.AdminUser;
-import com.library.system.model.RegularUser;
-import com.library.system.model.User;
+import com.course.system.model.Admin;
+import com.course.system.model.Student;
+import com.course.system.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +19,10 @@ public class UserService {
     @Autowired
     private FileService fileService;
 
-    // Create
     public void registerUser(User user) throws IOException {
         fileService.appendToFile(FILE_NAME, user.toString());
     }
 
-    // Read All
     public List<User> getAllUsers() throws IOException {
         List<String> lines = fileService.readFromFile(FILE_NAME);
         List<User> users = new ArrayList<>();
@@ -32,37 +30,15 @@ public class UserService {
             String[] parts = line.split("\\|");
             if (parts.length >= 5) {
                 if (parts[4].equals("ADMIN")) {
-                    users.add(new AdminUser(parts[0], parts[1], parts[2], parts[3]));
+                    users.add(new Admin(parts[0], parts[1], parts[2], parts[3]));
                 } else {
-                    users.add(new RegularUser(parts[0], parts[1], parts[2], parts[3], parts.length > 5 ? parts[5] : "Basic"));
+                    users.add(new Student(parts[0], parts[1], parts[2], parts[3], parts.length > 5 ? parts[5] : "General"));
                 }
             }
         }
         return users;
     }
 
-    // Read One
-    public Optional<User> findByUsername(String username) throws IOException {
-        return getAllUsers().stream()
-                .filter(u -> u.getUsername().equalsIgnoreCase(username))
-                .findFirst();
-    }
-
-    // Update
-    public void updateUser(User updatedUser) throws IOException {
-        List<User> users = getAllUsers();
-        List<String> updatedLines = new ArrayList<>();
-        for (User u : users) {
-            if (u.getId().equals(updatedUser.getId())) {
-                updatedLines.add(updatedUser.toString());
-            } else {
-                updatedLines.add(u.toString());
-            }
-        }
-        fileService.writeToFile(FILE_NAME, updatedLines);
-    }
-
-    // Delete
     public void deleteUser(String id) throws IOException {
         List<User> users = getAllUsers();
         List<String> updatedLines = new ArrayList<>();

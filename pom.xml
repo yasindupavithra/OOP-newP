@@ -8,11 +8,11 @@
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.library</groupId>
+    <groupId>com.course</groupId>
     <artifactId>system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>LibraryManagementSystem</name>
-    <description>OOP Project - Online Library Management System</description>
+    <name>CourseRegistrationSystem</name>
+    <description>OOP Project - Student Course Registration System</description>
     <properties>
         <java.version>17</java.version>
     </properties>

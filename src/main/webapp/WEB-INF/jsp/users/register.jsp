@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register | LibSystem</title>
+    <title>Register | EduReg</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav>
-        <div class="container">LibSystem</div>
+        <div class="container">EduReg System</div>
     </nav>
 
     <div class="container" style="max-width: 500px;">
@@ -28,18 +28,15 @@
                 </div>
                 <div class="form-group">
                     <label>User Type</label>
-                    <select name="type" id="type" onchange="document.getElementById('membership-group').style.display = this.value === 'REGULAR' ? 'block' : 'none'">
-                        <option value="REGULAR">Regular User</option>
+                    <select name="type" id="type" onchange="document.getElementById('student-group').style.display = this.value === 'STUDENT' ? 'block' : 'none'">
+                        <option value="STUDENT">Student</option>
                         <option value="ADMIN">Administrator</option>
                     </select>
                 </div>
 
-                <div id="membership-group" class="form-group">
-                    <label>Membership Type</label>
-                    <select name="membership">
-                        <option value="Basic">Basic</option>
-                        <option value="Premium">Premium</option>
-                    </select>
+                <div id="student-group" class="form-group">
+                    <label>Degree Program</label>
+                    <input type="text" name="program" placeholder="e.g. B.Sc. in Computer Science">
                 </div>
 
                 <div style="margin-top: 2rem;">

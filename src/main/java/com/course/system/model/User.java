@@ -1,4 +1,4 @@
-package com.library.system.model;
+package com.course.system.model;
 
 import java.io.Serializable;
 
@@ -19,7 +19,6 @@ public abstract class User implements Serializable {
         this.userType = userType;
     }
 
-    // Encapsulation: Public getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -35,8 +34,7 @@ public abstract class User implements Serializable {
     public String getUserType() { return userType; }
     public void setUserType(String userType) { this.userType = userType; }
 
-    // Polymorphism: Abstract method to be implemented by subclasses
-    public abstract String getPermissions();
+    public abstract String getRoleDescription();
 
     @Override
     public String toString() {

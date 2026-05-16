@@ -3,18 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Users | LibSystem</title>
+    <title>Users | EduReg</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <nav>
         <div class="container">
-            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">LibSystem</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">EduReg System</div>
             <div>
                 <a href="/">Home</a>
-                <a href="/books">Books</a>
+                <a href="/courses">Courses</a>
                 <a href="/users">Users</a>
-                <a href="/transactions">Borrowings</a>
+                <a href="/registrations">Registrations</a>
             </div>
         </div>
     </nav>
@@ -32,7 +32,7 @@
                         <th>Username</th>
                         <th>Email</th>
                         <th>Type</th>
-                        <th>Permissions</th>
+                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -46,7 +46,7 @@
                                     ${user.userType}
                                 </span>
                             </td>
-                            <td><small>${user.permissions}</small></td>
+                            <td><small>${user.roleDescription}</small></td>
                             <td>
                                 <a href="/users/delete/${user.id}" style="color: #ef4444;" onclick="return confirm('Delete this user?')">Delete</a>
                             </td>
