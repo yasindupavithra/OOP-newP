@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/courses")
@@ -20,8 +22,19 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    public String listCourses(Model model) throws IOException {
-        model.addAttribute("courses", courseService.getAllCourses());
+    public String listCourses(@RequestParam(required = false) String search, Model model) throws IOException {
+        List<Course> courses = courseService.getAllCourses();
+        
+        // Advanced Filtering for Member 01
+        if (search != null && !search.isEmpty()) {
+            courses = courses.stream()
+                    .filter(c -> c.getTitle().toLowerCase().contains(search.toLowerCase()) || 
+                                 c.getCourseCode().toLowerCase().contains(search.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        
+        model.addAttribute("courses", courses);
+        model.addAttribute("search", search);
         return "courses/list";
     }
 

@@ -22,7 +22,17 @@
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <h1>Course Catalog</h1>
-            <a href="/courses/add" class="btn btn-primary">+ Add New Course</a>
+            <div style="display: flex; gap: 1rem;">
+                <!-- Advanced Search Bar -->
+                <form action="/courses" method="get" style="display: flex; gap: 0.5rem;">
+                    <input type="text" name="search" value="${search}" placeholder="Search code or title..." style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; min-width: 250px;">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <c:if test="${not empty search}">
+                        <a href="/courses" class="btn" style="background: var(--secondary); color: white;">Clear</a>
+                    </c:if>
+                </form>
+                <a href="/courses/add" class="btn btn-primary">+ Add New</a>
+            </div>
         </div>
 
         <div class="card">
@@ -65,6 +75,11 @@
                             </td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${empty courses}">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 2rem; color: var(--secondary);">No courses found matching your search.</td>
+                        </tr>
+                    </c:if>
                 </tbody>
             </table>
         </div>
