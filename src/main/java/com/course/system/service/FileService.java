@@ -3,7 +3,7 @@ package com.course.system.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +23,13 @@ public class FileService {
     public void appendToFile(String filename, String line) throws IOException {
         Path path = Paths.get(storagePath + filename);
         Files.createDirectories(path.getParent());
-        Files.write(path, (line + System.lineSeparator()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        Files.write(path, (line + System.lineSeparator()).getBytes(),
+                StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
 
     public List<String> readFromFile(String filename) throws IOException {
         Path path = Paths.get(storagePath + filename);
-        if (!Files.exists(path)) {
-            return new ArrayList<>();
-        }
+        if (!Files.exists(path)) return new ArrayList<>();
         return Files.readAllLines(path);
     }
 }

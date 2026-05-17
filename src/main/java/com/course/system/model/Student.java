@@ -5,11 +5,11 @@ public class Student extends User {
 
     public Student() {
         super();
-        setUserType("STUDENT");
+        setUserType(UserType.STUDENT.name());
     }
 
     public Student(String id, String username, String password, String email, String degreeProgram) {
-        super(id, username, password, email, "STUDENT");
+        super(id, username, password, email, UserType.STUDENT.name());
         this.degreeProgram = degreeProgram;
     }
 
@@ -18,11 +18,11 @@ public class Student extends User {
 
     @Override
     public String getRoleDescription() {
-        return "Student: Authorized to register for courses and view grades.";
+        return "Student: Can register for courses and view grades.";
     }
 
     @Override
     public String toString() {
-        return super.toString() + "|" + degreeProgram;
+        return super.toString() + "|" + (degreeProgram != null ? degreeProgram : "General");
     }
 }

@@ -6,8 +6,10 @@ public class OnsiteCourse extends Course {
 
     public OnsiteCourse() { super(); }
 
-    public OnsiteCourse(String id, String title, String instructor, int credits, String courseCode, boolean open, String roomNumber, String campusLocation) {
-        super(id, title, instructor, credits, courseCode, open);
+    public OnsiteCourse(String id, String title, String instructorId, String instructorName,
+                        int credits, String courseCode, boolean open, int maxCapacity,
+                        String roomNumber, String campusLocation) {
+        super(id, title, instructorId, instructorName, credits, courseCode, open, maxCapacity);
         this.roomNumber = roomNumber;
         this.campusLocation = campusLocation;
     }
@@ -19,7 +21,7 @@ public class OnsiteCourse extends Course {
     public void setCampusLocation(String campusLocation) { this.campusLocation = campusLocation; }
 
     @Override
-    public String getCourseType() { return "ONSITE"; }
+    public String getCourseType() { return CourseType.ONSITE.name(); }
 
     @Override
     public String toString() {

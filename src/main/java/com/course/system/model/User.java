@@ -1,8 +1,15 @@
 package com.course.system.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public abstract class User implements Serializable {
+/**
+ * IMPROVEMENT (OOP):
+ * - Now implements Describable interface (interface-based polymorphism)
+ * - Added equals() and hashCode() based on ID
+ * - UserType stored as String for file compatibility, validated via enum
+ */
+public abstract class User implements Serializable, Describable {
     private String id;
     private String username;
     private String password;
@@ -34,7 +41,23 @@ public abstract class User implements Serializable {
     public String getUserType() { return userType; }
     public void setUserType(String userType) { this.userType = userType; }
 
+    // IMPROVEMENT: Declared in Describable interface, implemented by subclasses
+    @Override
     public abstract String getRoleDescription();
+
+    // IMPROVEMENT: equals and hashCode based on ID
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {

@@ -1,0 +1,2 @@
+3e8c4452|Network Fundamentals|unassigned|Ms. Sara Widana|3|NF101|true|30|ONSITE|G104|F104
+a421c5d7|DB Management|unassigned|Ms. Nathara|3|DB103|true|30|ONSITE|574|F102

@@ -1,15 +1,12 @@
 package com.course.system.service;
 
-import com.course.system.model.Course;
-import com.course.system.model.OnlineCourse;
-import com.course.system.model.OnsiteCourse;
+import com.course.system.model.*;
+import com.course.system.model.exception.CourseNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CourseService {
@@ -27,20 +24,29 @@ public class CourseService {
         List<String> lines = fileService.readFromFile(FILE_NAME);
         List<Course> courses = new ArrayList<>();
         for (String line : lines) {
-            String[] parts = line.split("\\|");
-            if (parts.length >= 7) {
-                String id = parts[0];
-                String title = parts[1];
-                String instructor = parts[2];
-                int credits = Integer.parseInt(parts[3]);
-                String code = parts[4];
-                boolean open = Boolean.parseBoolean(parts[5]);
-                String type = parts[6];
+            if (line.isBlank()) continue;
+            String[] p = line.split("\\|");
+            // Format: id|title|instructorId|instructorName|credits|courseCode|open|maxCapacity|type|[extra fields]
+            if (p.length >= 9) {
+                String id           = p[0];
+                String title        = p[1];
+                String instructorId = p[2];
+                String instrName    = p[3];
+                int credits         = Integer.parseInt(p[4]);
+                String code         = p[5];
+                boolean open        = Boolean.parseBoolean(p[6]);
+                int maxCap          = Integer.parseInt(p[7]);
+                String type         = p[8];
 
-                if (type.equals("ONLINE")) {
-                    courses.add(new OnlineCourse(id, title, instructor, credits, code, open, parts[7], parts[8]));
+                // IMPROVEMENT: use CourseType enum
+                if (CourseType.ONLINE.name().equals(type)) {
+                    courses.add(new OnlineCourse(id, title, instructorId, instrName,
+                            credits, code, open, maxCap,
+                            p.length > 9 ? p[9] : "", p.length > 10 ? p[10] : ""));
                 } else {
-                    courses.add(new OnsiteCourse(id, title, instructor, credits, code, open, parts[7], parts[8]));
+                    courses.add(new OnsiteCourse(id, title, instructorId, instrName,
+                            credits, code, open, maxCap,
+                            p.length > 9 ? p[9] : "", p.length > 10 ? p[10] : ""));
                 }
             }
         }
@@ -51,27 +57,26 @@ public class CourseService {
         return getAllCourses().stream().filter(c -> c.getId().equals(id)).findFirst();
     }
 
-    public void updateCourse(Course updatedCourse) throws IOException {
+    /** IMPROVEMENT: throws custom exception instead of returning empty */
+    public Course getCourseByIdOrThrow(String id) throws IOException {
+        return getCourseById(id).orElseThrow(() -> new CourseNotFoundException(id));
+    }
+
+    public void updateCourse(Course updated) throws IOException {
         List<Course> courses = getAllCourses();
-        List<String> updatedLines = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
         for (Course c : courses) {
-            if (c.getId().equals(updatedCourse.getId())) {
-                updatedLines.add(updatedCourse.toString());
-            } else {
-                updatedLines.add(c.toString());
-            }
+            lines.add(c.getId().equals(updated.getId()) ? updated.toString() : c.toString());
         }
-        fileService.writeToFile(FILE_NAME, updatedLines);
+        fileService.writeToFile(FILE_NAME, lines);
     }
 
     public void deleteCourse(String id) throws IOException {
         List<Course> courses = getAllCourses();
-        List<String> updatedLines = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
         for (Course c : courses) {
-            if (!c.getId().equals(id)) {
-                updatedLines.add(c.toString());
-            }
+            if (!c.getId().equals(id)) lines.add(c.toString());
         }
-        fileService.writeToFile(FILE_NAME, updatedLines);
+        fileService.writeToFile(FILE_NAME, lines);
     }
 }

@@ -6,8 +6,10 @@ public class OnlineCourse extends Course {
 
     public OnlineCourse() { super(); }
 
-    public OnlineCourse(String id, String title, String instructor, int credits, String courseCode, boolean open, String platform, String meetingLink) {
-        super(id, title, instructor, credits, courseCode, open);
+    public OnlineCourse(String id, String title, String instructorId, String instructorName,
+                        int credits, String courseCode, boolean open, int maxCapacity,
+                        String platform, String meetingLink) {
+        super(id, title, instructorId, instructorName, credits, courseCode, open, maxCapacity);
         this.platform = platform;
         this.meetingLink = meetingLink;
     }
@@ -19,7 +21,7 @@ public class OnlineCourse extends Course {
     public void setMeetingLink(String meetingLink) { this.meetingLink = meetingLink; }
 
     @Override
-    public String getCourseType() { return "ONLINE"; }
+    public String getCourseType() { return CourseType.ONLINE.name(); }
 
     @Override
     public String toString() {

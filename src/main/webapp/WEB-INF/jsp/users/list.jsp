@@ -7,54 +7,62 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">EduReg System</div>
-            <div>
-                <a href="/">Home</a>
-                <a href="/courses">Courses</a>
-                <a href="/users">Users</a>
-                <a href="/registrations">Registrations</a>
-            </div>
-        </div>
-    </nav>
+<%@ include file="/WEB-INF/jsp/common/nav.jsp" %>
 
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h1>User Management</h1>
-            <a href="/users/register" class="btn btn-primary">+ Register User</a>
-        </div>
-
-        <div class="card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="user" items="${users}">
-                        <tr>
-                            <td><strong>${user.username}</strong></td>
-                            <td>${user.email}</td>
-                            <td>
-                                <span class="badge ${user.userType == 'ADMIN' ? 'badge-warning' : 'badge-success'}">
-                                    ${user.userType}
-                                </span>
-                            </td>
-                            <td><small>${user.roleDescription}</small></td>
-                            <td>
-                                <a href="/users/delete/${user.id}" style="color: #ef4444;" onclick="return confirm('Delete this user?')">Delete</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <div class="page-header">
+        <h1>User Management</h1>
+        <a href="/users/register" class="btn btn-primary">+ Register User</a>
     </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Type</th>
+                    <th>Extra Info</th>
+                    <th>Role Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td><strong>${user.username}</strong></td>
+                        <td>${user.email}</td>
+                        <td>
+                            <span class="badge
+                                ${user.userType == 'ADMIN' ? 'badge-warning' :
+                                  user.userType == 'INSTRUCTOR' ? 'badge-info' : 'badge-success'}">
+                                ${user.userType}
+                            </span>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.userType == 'STUDENT'}">
+                                    <small>${user.degreeProgram}</small>
+                                </c:when>
+                                <c:when test="${user.userType == 'INSTRUCTOR'}">
+                                    <small>${user.department}</small>
+                                </c:when>
+                                <c:otherwise>-</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><small>${user.roleDescription}</small></td>
+                        <td>
+                            <a href="/users/delete/${user.id}" style="color:#ef4444;"
+                               onclick="return confirm('Delete this user?')">Delete</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                <c:if test="${empty users}">
+                    <tr><td colspan="6" style="text-align:center;padding:2rem;">No users registered yet.</td></tr>
+                </c:if>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>

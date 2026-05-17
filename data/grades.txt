@@ -1,0 +1,2 @@
+3b629853|307a3104|f3bf1bd6|a421c5d7|Sara|DB Management|91.0|A
+c856a517|581c2eb4|f3bf1bd6|3e8c4452|Sara|Network Fundamentals|64.0|D
